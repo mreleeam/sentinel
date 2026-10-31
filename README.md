@@ -90,7 +90,7 @@ sudo zypper install gcc make cmake python3 python3-pip ca-certificates
 ## Installation
 
 ```bash
-
+git clone https://github.com/mreleeam/sentinel.git
 cd Sentinel
 ./install.sh
 ```
