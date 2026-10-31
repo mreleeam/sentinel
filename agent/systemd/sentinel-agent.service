@@ -1,0 +1,19 @@
+[Unit]
+Description=Sentinel Monitoring Agent
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/sentinel-agent
+WorkingDirectory=/var/lib/sentinel/
+Restart=on-failure
+RestartSec=5
+
+User=root
+
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

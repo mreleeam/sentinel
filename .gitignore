@@ -1,0 +1,14 @@
+agent/build/
+web/.venv/
+web/db.sqlite3
+web/staticfiles/
+web/media/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.vscode/
+.idea/
+*.swp
+.DS_Store
+.env
+*.env.local

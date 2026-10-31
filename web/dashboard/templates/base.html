@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    {% block title %}Linux/Sentinel{% endblock %}
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="{% static 'css/terminal.min.css' %}"
+  >
+
+  <link
+    rel="stylesheet"
+    href="{% static 'css/dashboard.css' %}?v=2"
+  >
+
+  {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+  {% block content %}
+  {% endblock %}
+
+  <script
+    src="{% static 'js/dashboard.js' %}?v=2"
+  ></script>
+
+  {% block extra_js %}{% endblock %}
+
+</body>
+
+</html>

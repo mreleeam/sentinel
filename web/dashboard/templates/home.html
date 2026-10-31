@@ -1,0 +1,444 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Linux/Sentinel
+{% endblock %}
+
+
+{% block content %}
+
+<main class="sentinel-page">
+
+  {% if not agent_running %}
+
+  <section class="agent-offline">
+
+    <div class="offline-content">
+
+      <h1 class="terminal-title">
+        LINUX/SENTINEL
+      </h1>
+
+      <div class="offline-status">
+        ● AGENT OFFLINE
+      </div>
+
+      <p>
+        The Sentinel agent is not running.
+      </p>
+
+      <p class="offline-hint">
+        Waiting for /tmp/metrics.json ...
+      </p>
+
+    </div>
+
+  </section>
+
+  {% else %}
+
+  <header class="hero-header">
+
+    <div>
+
+      <h1 class="terminal-title">
+        LINUX/SENTINEL
+      </h1>
+
+      <div class="agent-status">
+        <span class="status-dot">●</span>
+        AGENT ONLINE
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <section class="system-panel">
+
+    <div class="panel-header">
+      SYSTEM
+    </div>
+
+
+    <div class="system-info">
+
+      <div class="system-info-item">
+
+        <span class="system-info-label">
+          HOSTNAME
+        </span>
+
+        <strong id="hostname">
+          {{ metrics.hostname }}
+        </strong>
+
+      </div>
+
+
+      <div class="system-info-item">
+
+        <span class="system-info-label">
+          UPTIME
+        </span>
+
+        <strong id="uptime">
+          {{ metrics.uptime }}
+        </strong>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="system-panel metrics-panel">
+
+    <div class="panel-header">
+      RESOURCE USAGE
+    </div>
+
+
+    <div class="metric-list">
+
+
+      <div class="metric-row">
+
+        <div class="metric-label">
+          CPU
+        </div>
+
+        <div class="metric-value">
+          <span id="cpu-value">
+            {{ metrics.cpu.usage|floatformat:2 }}
+          </span>%
+        </div>
+
+        <div class="usage-bar">
+
+          <div
+            id="cpu-bar"
+            class="usage-bar-fill"
+            style="width: {{ metrics.cpu.usage }}%;"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <div class="metric-row">
+
+        <div class="metric-label">
+          MEMORY
+        </div>
+
+        <div class="metric-value">
+          <span id="memory-value">
+            {{ metrics.memory.usage|floatformat:2 }}
+          </span>%
+        </div>
+
+        <div class="usage-bar">
+
+          <div
+            id="memory-bar"
+            class="usage-bar-fill"
+            style="width: {{ metrics.memory.usage }}%;"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <div class="metric-row">
+
+        <div class="metric-label">
+          SWAP
+        </div>
+
+        <div class="metric-value">
+          <span id="swap-value">
+            {{ metrics.swap.usage|floatformat:2 }}
+          </span>%
+        </div>
+
+        <div class="usage-bar">
+
+          <div
+            id="swap-bar"
+            class="usage-bar-fill"
+            style="width: {{ metrics.swap.usage }}%;"
+          ></div>
+
+        </div>
+
+      </div>
+
+
+      <div class="metric-row">
+
+        <div class="metric-label">
+          DISK
+        </div>
+
+        <div class="metric-value">
+          <span id="disk-value">
+            {{ metrics.disk.usage|floatformat:2 }}
+          </span>%
+        </div>
+
+        <div class="usage-bar">
+
+          <div
+            id="disk-bar"
+            class="usage-bar-fill"
+            style="width: {{ metrics.disk.usage }}%;"
+          ></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="resource-details">
+
+      <div>
+
+        <span>
+          MEMORY
+        </span>
+
+        <strong id="memory-details">
+          {{ metrics.memory.used_gb|floatformat:2 }}
+          GB /
+          {{ metrics.memory.total_gb|floatformat:2 }}
+          GB
+        </strong>
+
+      </div>
+
+
+      <div>
+
+        <span>
+          MEM AVAILABLE
+        </span>
+
+        <strong id="memory-available">
+          {{ metrics.memory.available_gb|floatformat:2 }}
+          GB
+        </strong>
+
+      </div>
+
+
+      <div>
+
+        <span>
+          SWAP
+        </span>
+
+        <strong id="swap-details">
+          {{ metrics.swap.used_gb|floatformat:2 }}
+          GB /
+          {{ metrics.swap.total_gb|floatformat:2 }}
+          GB
+        </strong>
+
+      </div>
+
+
+      <div>
+
+        <span>
+          DISK
+        </span>
+
+        <strong id="disk-details">
+          {{ metrics.disk.available_gb|floatformat:2 }}
+          GB
+        </strong>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="system-panel network-section">
+
+    <div class="panel-header">
+      NETWORK
+    </div>
+
+
+    <div class="network-interface">
+
+      INTERFACE ::
+      <strong id="network-interface">
+        {{ metrics.network.interface }}
+      </strong>
+
+    </div>
+
+
+    <div class="network-stats">
+
+
+      <div class="network-stat">
+
+        <span>
+          RX
+        </span>
+
+        <strong id="network-rx">
+          {{ metrics.network.rx_mb|floatformat:2 }}
+          MB
+        </strong>
+
+      </div>
+
+
+      <div class="network-stat">
+
+        <span>
+          TX
+        </span>
+
+        <strong id="network-tx">
+          {{ metrics.network.tx_mb|floatformat:2 }}
+          MB
+        </strong>
+
+      </div>
+
+
+      <div class="network-stat">
+
+        <span>
+          RX/s
+        </span>
+
+        <strong id="network-rx-speed">
+          {{ metrics.network.rx_mb_s|floatformat:2 }}
+          MB/s
+        </strong>
+
+      </div>
+
+
+      <div class="network-stat">
+
+        <span>
+          TX/s
+        </span>
+
+        <strong id="network-tx-speed">
+          {{ metrics.network.tx_mb_s|floatformat:2 }}
+          MB/s
+        </strong>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <section class="process-section">
+
+    <button
+      id="process-toggle"
+      class="btn btn-primary btn-ghost process-toggle"
+      type="button"
+    >
+
+      <span id="process-toggle-icon">
+        +
+      </span>
+
+      <span id="process-toggle-text">
+        SHOW PROCESSES
+      </span>
+
+    </button>
+
+
+    <div
+      id="process-container"
+      class="process-container"
+      hidden
+    >
+
+      <div class="process-header">
+
+        <span>
+          PROCESS SNAPSHOT
+        </span>
+
+        <span id="process-count">
+          0 PROCESSES
+        </span>
+
+      </div>
+
+
+      <div class="process-table-wrapper">
+
+        <table class="process-table">
+
+          <thead>
+
+            <tr>
+
+              <th>
+                PID
+              </th>
+
+              <th>
+                NAME
+              </th>
+
+              <th>
+                USER
+              </th>
+
+              <th>
+                CPU
+              </th>
+
+              <th>
+                MEMORY
+              </th>
+
+              <th>
+                EXECUTABLE
+              </th>
+
+            </tr>
+
+          </thead>
+
+
+          <tbody id="process-table-body">
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  {% endif %}
+
+</main>
+
+{% endblock %}
